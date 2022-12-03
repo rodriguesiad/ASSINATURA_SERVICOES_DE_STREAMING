@@ -1,11 +1,9 @@
 package modelo.usuario;
 
-public class Assinante implements Perfil {
+public class UsuarioAdministrador implements Perfil {
 
 	private String email;
 	private String senha;
-
-	// private TipoPerfil tipo;
 
 	@Override
 	public String getEmail() {

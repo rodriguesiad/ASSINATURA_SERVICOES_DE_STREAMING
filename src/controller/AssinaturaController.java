@@ -126,8 +126,9 @@ public class AssinaturaController {
 	}
 
 	public void ordenarPorDataVencimento() {
-		assinaturas.stream().sorted((assinatura1, assinatura2) -> assinatura1.getDataVencimento().compareTo(assinatura2.getDataVencimento()))
-		.forEach(assinatura -> assinatura.imprimir());;
+		assinaturas.stream().sorted((assinatura1, assinatura2) -> assinatura1.getDataVencimento()
+				.compareTo(assinatura2.getDataVencimento())).forEach(assinatura -> assinatura.imprimir());
+		;
 	}
 
 }
