@@ -3,7 +3,7 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import modelo.ServicoStreaming;
+import modelo.servicoStreaming.ServicoStreaming;
 
 public class ServicosStreamingController {
 

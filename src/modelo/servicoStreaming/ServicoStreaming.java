@@ -1,4 +1,4 @@
-package modelo;
+package modelo.servicoStreaming;
 
 public class ServicoStreaming {
 

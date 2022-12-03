@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import modelo.Assinante;
-import modelo.Assinatura;
-import modelo.ServicoStreaming;
-import modelo.StatusPagamento;
+import modelo.assinatura.Assinatura;
+import modelo.assinatura.StatusPagamento;
+import modelo.servicoStreaming.ServicoStreaming;
+import modelo.usuario.Assinante;
 
 public class AssinaturaController {
 	private static Scanner scan = new Scanner(System.in);
