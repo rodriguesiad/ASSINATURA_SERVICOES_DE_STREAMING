@@ -1,11 +1,18 @@
 package modelo.usuario;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import modelo.assinatura.Assinatura;
+
 public class Assinante implements Perfil {
 
 	private String email;
 	private String senha;
 
 	// private TipoPerfil tipo;
+	
+	private List<Assinatura> assinatura = new ArrayList<>();
 
 	@Override
 	public String getEmail() {
@@ -25,6 +32,14 @@ public class Assinante implements Perfil {
 	@Override
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public List<Assinatura> getAssinatura() {
+		return assinatura;
+	}
+
+	public void setAssinatura(List<Assinatura> assinatura) {
+		this.assinatura = assinatura;
 	}
 
 }
