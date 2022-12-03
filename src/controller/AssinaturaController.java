@@ -1,11 +1,10 @@
 package controller;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import modelo.AssinanteAdministrador;
+import modelo.Assinante;
 import modelo.Assinatura;
 import modelo.ServicoStreaming;
 
@@ -16,7 +15,7 @@ public class AssinaturaController {
 
 	private static List<Assinatura> assinaturas = new ArrayList<>();
 
-	public void cadastrar(AssinanteAdministrador assinante, List<ServicoStreaming> servicosSistema) {
+	public void cadastrar(Assinante assinante, List<ServicoStreaming> servicosSistema) {
 
 		// id(assinaturas.isEmpoty())
 		// cargaDados();
@@ -55,7 +54,7 @@ public class AssinaturaController {
 		}
 		return servicos;
 	}
-	
+
 	private List<ServicoStreaming> removerServicos(List<ServicoStreaming> servicosAssinatura) {
 		Boolean isTrue = true;
 
@@ -65,7 +64,7 @@ public class AssinaturaController {
 
 			if (indice != 0) {
 				try {
-					servicosAssinatura.remove(indice-1);
+					servicosAssinatura.remove(indice - 1);
 				} catch (Exception e) {
 					System.out.println("Serviço de Streaming não cadastrado");
 				}
@@ -74,7 +73,7 @@ public class AssinaturaController {
 				isTrue = false;
 			}
 		}
-		
+
 		List<ServicoStreaming> servicos = servicosAssinatura;
 		return servicos;
 	}
@@ -88,12 +87,15 @@ public class AssinaturaController {
 			assinatura.getServicosStreaming().addAll(adicionarServicos(servicosSistema));
 		else if (option == 2)
 			assinatura.setServicosStreaming(removerServicos(assinatura.getServicosStreaming()));
-			
 
 	}
-	
+
 	public void desativar(Assinatura assinatura) {
 		assinatura.desativarAssinatura();
+	}
+	
+	public void excluir(Assinatura assinatura) {
+		assinaturas.remove(assinatura);
 	}
 
 	private Integer lerInteiro(String mensagem) {
@@ -111,6 +113,10 @@ public class AssinaturaController {
 		}
 
 		return valor;
+	}
+	
+	private void imprimir() {
+		assinaturas.forEach(assinatura -> assinatura.imprimir());
 	}
 
 }

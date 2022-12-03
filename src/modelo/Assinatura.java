@@ -13,14 +13,14 @@ public class Assinatura {
 	private StatusPagamento statusPagamento;
 	private Double valor;
 	private boolean ativo;
-	private AssinanteAdministrador assinanteAdministrador;
+	private Assinante assinanteAdministrador;
 	private List<ServicoStreaming> servicosStreaming = new ArrayList<>();
 
 	public Integer getId() {
 		return id;
 	}
 
-	public Assinatura(Integer id, AssinanteAdministrador assinanteAdministrador,
+	public Assinatura(Integer id, Assinante assinanteAdministrador,
 			List<ServicoStreaming> servicosStreaming) {
 		super();
 		this.id = id;
@@ -41,11 +41,11 @@ public class Assinatura {
 		this.servicosStreaming = servicosStreaming;
 	}
 
-	public AssinanteAdministrador getAssinanteAdministrador() {
+	public Assinante getAssinanteAdministrador() {
 		return assinanteAdministrador;
 	}
 
-	public void setAssinanteAdministrador(AssinanteAdministrador assinanteAdministrador) {
+	public void setAssinanteAdministrador(Assinante assinanteAdministrador) {
 		this.assinanteAdministrador = assinanteAdministrador;
 	}
 
@@ -55,6 +55,16 @@ public class Assinatura {
 
 	public void realizarPagamento() {
 		this.setStatusPagamento(StatusPagamento.PAGO);
+	}
+	
+	public void imprimir() {
+		System.out.println(this);
+		imprimirServicos();
+	}
+	
+	public void imprimirServicos() {
+		System.out.println("/n Serviços de Streaming: ");
+		this.servicosStreaming.forEach(servicos -> System.out.println(servicos));
 	}
 
 	@Override
@@ -81,10 +91,9 @@ public class Assinatura {
 
 	@Override
 	public String toString() {
-		return "Assinatura [id=" + id + ", dataCadastro=" + dataCadastro + ", dataVencimento=" + dataVencimento
-				+ ", statusPagamento=" + statusPagamento + ", valor=" + valor + ", ativo=" + ativo
-				+ ", assinanteAdministrador=" + assinanteAdministrador + ", servicosStreaming=" + servicosStreaming
-				+ "]";
+		return "Assinatura \nData de Cadastro: " + dataCadastro + "\nData de vencimento:" + dataVencimento
+				+ "\nStatus do pagamento: " + statusPagamento + "\nValor da mensalidade: " + valor + "\nConta ativa: " + ativo
+				+ "\nAssinante: " + assinanteAdministrador;
 	}
 
 	public LocalDate getDataCadastro() {
