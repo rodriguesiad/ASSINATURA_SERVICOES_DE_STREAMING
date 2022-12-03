@@ -35,59 +35,58 @@ public class AssinaturaController {
 	};
 
 	private List<ServicoStreaming> adicionarServicos(List<ServicoStreaming> servicosSistema) {
-		Boolean isTrue = true;
+		int indice;
 		List<ServicoStreaming> servicos = new ArrayList<>();
 
-		while (isTrue) {
+		do {
 
-			int indice = lerInteiro("Digite o numero do serviço de streaming desejado:\n(Para sair digite 0)");
+			indice = lerInteiro("Digite o numero do serviço de streaming desejado:\n(Para sair digite 0)");
 
-			if (indice != 0) {
-				try {
-					servicos.add(servicosSistema.get(indice - 1));
-				} catch (Exception e) {
-					System.out.println("Serviço de Streaming não cadastrado");
-				}
-
-			} else {
-				isTrue = false;
+			try {
+				servicos.add(servicosSistema.get(indice - 1));
+			} catch (Exception e) {
+				System.out.println("Serviço de Streaming não cadastrado");
 			}
-		}
+
+		} while (indice != 0);
 		return servicos;
 	}
 
 	private List<ServicoStreaming> removerServicos(List<ServicoStreaming> servicosAssinatura) {
-		Boolean isTrue = true;
+		int indice;
 
-		while (isTrue) {
+		do {
 
-			int indice = lerInteiro("Digite o numero do serviço de streaming desejado:\n(Para sair digite 0)");
+			indice = lerInteiro("Digite o numero do serviço de streaming desejado:\n(Para sair digite 0)");
 
-			if (indice != 0) {
-				try {
-					servicosAssinatura.remove(indice - 1);
-				} catch (Exception e) {
-					System.out.println("Serviço de Streaming não cadastrado");
-				}
-
-			} else {
-				isTrue = false;
+			try {
+				servicosAssinatura.remove(indice - 1);
+			} catch (Exception e) {
+				System.out.println("Serviço de Streaming não cadastrado");
 			}
-		}
+
+		} while (indice != 0);
 
 		List<ServicoStreaming> servicos = servicosAssinatura;
 		return servicos;
 	}
 
 	public void editar(Assinatura assinatura, List<ServicoStreaming> servicosSistema) {
+		int option = 0;
+		do {
+			option = lerInteiro(
+					"1 - Adicionar Serviço de Streaming\n2 - Deletar Serviço de Streaming(Para sair digite 0)");
 
-		int option = lerInteiro(
-				"1 - Adicionar Serviço de Streaming\n2 - Deletar Serviço de Streaming(Para sair digite 0)");
-
-		if (option == 1)
-			assinatura.getServicosStreaming().addAll(adicionarServicos(servicosSistema));
-		else if (option == 2)
-			assinatura.setServicosStreaming(removerServicos(assinatura.getServicosStreaming()));
+			if (option == 1) {
+				assinatura.getServicosStreaming().addAll(adicionarServicos(servicosSistema));
+				assinatura.setValor();
+			} else if (option == 2) {
+				assinatura.setServicosStreaming(removerServicos(assinatura.getServicosStreaming()));
+				assinatura.setValor();
+			} else if (option > 2 || option < 0) {
+				System.out.println("\n Escolha inválida! ");
+			}
+		} while (option != 0);
 
 	}
 
