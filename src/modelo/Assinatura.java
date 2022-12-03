@@ -1,6 +1,7 @@
 package modelo;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,8 +21,7 @@ public class Assinatura {
 		return id;
 	}
 
-	public Assinatura(Integer id, Assinante assinanteAdministrador,
-			List<ServicoStreaming> servicosStreaming) {
+	public Assinatura(Integer id, Assinante assinanteAdministrador, List<ServicoStreaming> servicosStreaming) {
 		super();
 		this.id = id;
 		this.assinanteAdministrador = assinanteAdministrador;
@@ -56,12 +56,12 @@ public class Assinatura {
 	public void realizarPagamento() {
 		this.setStatusPagamento(StatusPagamento.PAGO);
 	}
-	
+
 	public void imprimir() {
 		System.out.println(this);
 		imprimirServicos();
 	}
-	
+
 	public void imprimirServicos() {
 		System.out.println("/n Serviços de Streaming: ");
 		this.servicosStreaming.forEach(servicos -> System.out.println(servicos));
@@ -91,9 +91,11 @@ public class Assinatura {
 
 	@Override
 	public String toString() {
-		return "Assinatura \nData de Cadastro: " + dataCadastro + "\nData de vencimento:" + dataVencimento
-				+ "\nStatus do pagamento: " + statusPagamento + "\nValor da mensalidade: " + valor + "\nConta ativa: " + ativo
-				+ "\nAssinante: " + assinanteAdministrador;
+		return "Assinatura\nID: " + id + "\nData de Cadastro: "
+				+ dataCadastro.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\nData de vencimento:"
+				+ dataVencimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\nStatus do pagamento: "
+				+ statusPagamento + "\nValor da mensalidade: " + valor + "\nConta ativa: " + ativo + "\nAssinante: "
+				+ assinanteAdministrador;
 	}
 
 	public LocalDate getDataCadastro() {

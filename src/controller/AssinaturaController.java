@@ -7,6 +7,7 @@ import java.util.Scanner;
 import modelo.Assinante;
 import modelo.Assinatura;
 import modelo.ServicoStreaming;
+import modelo.StatusPagamento;
 
 public class AssinaturaController {
 	private static Scanner scan = new Scanner(System.in);
@@ -93,7 +94,7 @@ public class AssinaturaController {
 	public void desativar(Assinatura assinatura) {
 		assinatura.desativarAssinatura();
 	}
-	
+
 	public void excluir(Assinatura assinatura) {
 		assinaturas.remove(assinatura);
 	}
@@ -114,9 +115,19 @@ public class AssinaturaController {
 
 		return valor;
 	}
-	
-	private void imprimir() {
+
+	public void imprimir() {
 		assinaturas.forEach(assinatura -> assinatura.imprimir());
+	}
+
+	public void filtrarPorStatusPagamento(StatusPagamento statusPagamento) {
+		assinaturas.stream().filter(assinatura -> assinatura.getStatusPagamento().equals(statusPagamento))
+				.forEach(assinatura -> assinatura.imprimir());
+	}
+
+	public void ordenarPorDataVencimento() {
+		assinaturas.stream().sorted((assinatura1, assinatura2) -> assinatura1.getDataVencimento().compareTo(assinatura2.getDataVencimento()))
+		.forEach(assinatura -> assinatura.imprimir());;
 	}
 
 }
