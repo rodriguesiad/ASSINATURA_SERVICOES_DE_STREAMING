@@ -1,6 +1,8 @@
 package controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,6 +20,32 @@ public class AssinaturaController {
 
 	private List<Assinatura> assinaturas = new ArrayList<>();
 
+	public void cargaDados(Assinante assinante) {
+		assinaturas.add(new Assinatura(id, assinante, LocalDate.of(2022, 11, 01), new ArrayList<ServicoStreaming>(
+				Arrays.asList(servicoController.getServicos().get(0), servicoController.getServicos().get(1)))));
+		id += 1;
+		assinaturas.add(new Assinatura(id, assinante, LocalDate.now(), new ArrayList<ServicoStreaming>(
+				Arrays.asList(servicoController.getServicos().get(2), servicoController.getServicos().get(3)))));
+		id += 1;
+	}
+
+	public Assinatura selecionarAssinatura() {
+		imprimir();
+		Assinatura assinatura = null;
+		int indice;
+		
+		while (assinatura == null) {
+
+			indice = lerInteiro("\nDigite o id da assinatura desejada: ");
+			try {
+				assinatura = assinaturas.get(indice - 1);
+			} catch (Exception e) {
+				System.out.println("Assinatura não cadastrada");
+			}
+		}
+		return assinatura;
+	}
+
 	public void cadastrar(Assinante assinante) {
 
 		System.out.println("\n - CADASTRAR ASSINATURA - ");
@@ -25,8 +53,8 @@ public class AssinaturaController {
 		Assinatura assinatura = new Assinatura(id, assinante, adicionarServicos());
 		assinaturas.add(assinatura);
 		id += 1;
-		
-		//Adicionando assinatura no perfil do usuario
+
+		// Adicionando assinatura no perfil do usuario
 		assinante.getAssinaturas().add(assinatura);
 
 		System.out.println("\n Assinatura Cadastrada ");
@@ -64,7 +92,11 @@ public class AssinaturaController {
 			indice = lerInteiro("\nDigite o numero do serviço de streaming desejado:\n(Para sair digite 0)\nDigite: ");
 			if (indice != 0) {
 				try {
-					servicos.add(servicoController.getServicos().get(indice - 1));
+					if (servicos.contains(servicoController.getServicos().get(indice - 1))) {
+						System.out.println("\nServiço de Stream já inserido");
+					} else {
+						servicos.add(servicoController.getServicos().get(indice - 1));
+					}
 				} catch (Exception e) {
 					System.out.println("Serviço de Streaming não cadastrado");
 				}
@@ -95,6 +127,10 @@ public class AssinaturaController {
 
 	public void desativar(Assinatura assinatura) {
 		assinatura.cancelarAssinatura();
+	}
+	
+	public void ativar(Assinatura assinatura) {
+		assinatura.ativarAssinatura();
 	}
 
 	public void excluir(Assinatura assinatura) {

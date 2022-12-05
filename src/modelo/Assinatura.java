@@ -8,7 +8,7 @@ import java.util.Objects;
 
 import modelo.usuario.Assinante;
 
-public class Assinatura implements Imprimir{
+public class Assinatura implements Imprimir {
 
 	private Integer id;
 	private LocalDate dataCadastro;
@@ -35,6 +35,27 @@ public class Assinatura implements Imprimir{
 		setValor();
 	}
 
+	public Assinatura(Integer id, Assinante assinante, LocalDate dataCadastro,
+			List<ServicoStreaming> servicosStreaming) {
+		super();
+		this.id = id;
+		this.assinante = assinante;
+		this.dataCadastro = dataCadastro;
+		this.dataVencimento = this.dataCadastro.plusDays(30);
+
+		if (dataVencimento.isBefore(LocalDate.now()))
+			this.statusPagamento = StatusPagamento.PENDENTE;
+		else
+			this.statusPagamento = StatusPagamento.PAGO;
+
+		this.ativo = true;
+		this.servicosStreaming = servicosStreaming;
+		setValor();
+	}
+
+	public Assinatura() {
+	};
+
 	public List<ServicoStreaming> getServicosStreaming() {
 		return servicosStreaming;
 	}
@@ -54,6 +75,10 @@ public class Assinatura implements Imprimir{
 	public void cancelarAssinatura() {
 		this.setAtivo(false);
 	}
+	
+	public void ativarAssinatura() {
+		this.setAtivo(true);
+	}
 
 	public void realizarPagamento() {
 		this.setStatusPagamento(StatusPagamento.PAGO);
@@ -66,13 +91,16 @@ public class Assinatura implements Imprimir{
 
 	public void imprimirServicos() {
 		System.out.println("Serviços de Streaming: ");
-		this.servicosStreaming.forEach(servicos -> System.out.println(servicos));
+		if (this.statusPagamento.equals(StatusPagamento.PENDENTE))
+			System.out.println("Serviços de Stream: Bloqueados");
+		else
+			this.servicosStreaming.forEach(servicos -> System.out.println(servicos));
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(assinante, ativo, dataCadastro, dataVencimento, id, servicosStreaming,
-				statusPagamento, valor);
+		return Objects.hash(assinante, ativo, dataCadastro, dataVencimento, id, servicosStreaming, statusPagamento,
+				valor);
 	}
 
 	@Override
