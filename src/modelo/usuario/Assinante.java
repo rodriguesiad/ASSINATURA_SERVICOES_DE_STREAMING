@@ -2,44 +2,48 @@ package modelo.usuario;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import modelo.assinatura.Assinatura;
+import modelo.Assinatura;
 
-public class Assinante implements Perfil {
+public class Assinante extends Usuario {
 
-	private String email;
-	private String senha;
+	private List<Assinatura> assinaturas = new ArrayList<>();
 
-	// private TipoPerfil tipo;
+	public List<Assinatura> getAssinaturas() {
+		return assinaturas;
+	}
+
+	public void setAssinaturas(List<Assinatura> assinatura) {
+		this.assinaturas = assinatura;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(assinaturas);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Assinante other = (Assinante) obj;
+		return Objects.equals(assinaturas, other.assinaturas);
+	}
+
+	@Override
+	public String toString() {
+		return "Assinante [getAssinaturas()=" + getAssinaturas() + ", hashCode()=" + hashCode() + "]";
+	}
+
+	public Assinante(String email, String senha) {
+		super(email, senha);
+	}
 	
-	private List<Assinatura> assinatura = new ArrayList<>();
-
-	@Override
-	public String getEmail() {
-		return this.email;
-	}
-
-	@Override
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	@Override
-	public String getSenha() {
-		return this.senha;
-	}
-
-	@Override
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
-	public List<Assinatura> getAssinatura() {
-		return assinatura;
-	}
-
-	public void setAssinatura(List<Assinatura> assinatura) {
-		this.assinatura = assinatura;
-	}
+	
 
 }

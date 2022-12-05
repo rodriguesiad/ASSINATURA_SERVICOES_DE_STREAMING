@@ -4,83 +4,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import modelo.assinatura.Assinatura;
-import modelo.assinatura.StatusPagamento;
-import modelo.servicoStreaming.ServicoStreaming;
+import modelo.Assinatura;
+import modelo.ServicoStreaming;
+import modelo.StatusPagamento;
 import modelo.usuario.Assinante;
 
 public class AssinaturaController {
 	private static Scanner scan = new Scanner(System.in);
 	private static Scanner scanNextLine = new Scanner(System.in);
-	private static Integer id = 0;
+	private static Integer id = 1;
 
-	private static List<Assinatura> assinaturas = new ArrayList<>();
+	private static ServicosStreamingController servicoController = new ServicosStreamingController();
 
-	public void cadastrar(Assinante assinante, List<ServicoStreaming> servicosSistema) {
+	private List<Assinatura> assinaturas = new ArrayList<>();
 
-		// id(assinaturas.isEmpoty())
-		// cargaDados();
+	public void cadastrar(Assinante assinante) {
 
 		System.out.println("\n - CADASTRAR ASSINATURA - ");
 
-		Assinatura assinatura = new Assinatura(id, assinante, adicionarServicos(servicosSistema));
+		Assinatura assinatura = new Assinatura(id, assinante, adicionarServicos());
 		assinaturas.add(assinatura);
 		id += 1;
+		
+		//Adicionando assinatura no perfil do usuario
+		assinante.getAssinaturas().add(assinatura);
 
 		System.out.println("\n Assinatura Cadastrada ");
 
 	}
 
-	private void cargaDados() {
-	};
-
-	private List<ServicoStreaming> adicionarServicos(List<ServicoStreaming> servicosSistema) {
-		int indice;
-		List<ServicoStreaming> servicos = new ArrayList<>();
-
-		do {
-
-			indice = lerInteiro("Digite o numero do serviço de streaming desejado:\n(Para sair digite 0)");
-
-			try {
-				servicos.add(servicosSistema.get(indice - 1));
-			} catch (Exception e) {
-				System.out.println("Serviço de Streaming não cadastrado");
-			}
-
-		} while (indice != 0);
-		return servicos;
-	}
-
-	private List<ServicoStreaming> removerServicos(List<ServicoStreaming> servicosAssinatura) {
-		int indice;
-
-		do {
-
-			indice = lerInteiro("Digite o numero do serviço de streaming desejado:\n(Para sair digite 0)");
-
-			try {
-				servicosAssinatura.remove(indice - 1);
-			} catch (Exception e) {
-				System.out.println("Serviço de Streaming não cadastrado");
-			}
-
-		} while (indice != 0);
-
-		List<ServicoStreaming> servicos = servicosAssinatura;
-		return servicos;
-	}
-
-	public void editar(Assinatura assinatura, List<ServicoStreaming> servicosSistema) {
+	public void editar(Assinatura assinatura) {
 		int option = 0;
 		do {
 			option = lerInteiro(
-					"1 - Adicionar Serviço de Streaming\n2 - Deletar Serviço de Streaming(Para sair digite 0)");
+					"\n1 - Adicionar Serviço de Streaming\n2 - Deletar Serviço de Streaming(Para sair digite 0)\nDigite: ");
 
 			if (option == 1) {
-				assinatura.getServicosStreaming().addAll(adicionarServicos(servicosSistema));
+				assinatura.getServicosStreaming().addAll(adicionarServicos());
 				assinatura.setValor();
 			} else if (option == 2) {
+				assinatura.imprimirServicos();
 				assinatura.setServicosStreaming(removerServicos(assinatura.getServicosStreaming()));
 				assinatura.setValor();
 			} else if (option > 2 || option < 0) {
@@ -90,8 +53,48 @@ public class AssinaturaController {
 
 	}
 
+	private List<ServicoStreaming> adicionarServicos() {
+		int indice;
+		List<ServicoStreaming> servicos = new ArrayList<>();
+
+		servicoController.imprimir();
+
+		do {
+
+			indice = lerInteiro("\nDigite o numero do serviço de streaming desejado:\n(Para sair digite 0)\nDigite: ");
+			if (indice != 0) {
+				try {
+					servicos.add(servicoController.getServicos().get(indice - 1));
+				} catch (Exception e) {
+					System.out.println("Serviço de Streaming não cadastrado");
+				}
+			}
+
+		} while (indice != 0);
+		return servicos;
+	}
+
+	private List<ServicoStreaming> removerServicos(List<ServicoStreaming> servicosAssinatura) {
+		int indice;
+		do {
+
+			indice = lerInteiro("\nDigite o numero do serviço de streaming desejado:\n(Para sair digite 0)\nDigite: ");
+			if (indice != 0) {
+				try {
+					servicosAssinatura.remove(indice - 1);
+				} catch (Exception e) {
+					System.out.println("Serviço de Streaming não cadastrado");
+				}
+			}
+
+		} while (indice != 0);
+
+		List<ServicoStreaming> servicos = servicosAssinatura;
+		return servicos;
+	}
+
 	public void desativar(Assinatura assinatura) {
-		assinatura.desativarAssinatura();
+		assinatura.cancelarAssinatura();
 	}
 
 	public void excluir(Assinatura assinatura) {
@@ -128,6 +131,10 @@ public class AssinaturaController {
 		assinaturas.stream().sorted((assinatura1, assinatura2) -> assinatura1.getDataVencimento()
 				.compareTo(assinatura2.getDataVencimento())).forEach(assinatura -> assinatura.imprimir());
 		;
+	}
+
+	public List<Assinatura> getAssinaturas() {
+		return assinaturas;
 	}
 
 }

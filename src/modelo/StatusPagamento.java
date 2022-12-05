@@ -1,4 +1,4 @@
-package modelo.assinatura;
+package modelo;
 
 public enum StatusPagamento {
 	PENDENTE, PAGO;
