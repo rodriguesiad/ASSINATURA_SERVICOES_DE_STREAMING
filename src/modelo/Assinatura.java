@@ -82,6 +82,7 @@ public class Assinatura implements Imprimir {
 
 	public void realizarPagamento() {
 		this.setStatusPagamento(StatusPagamento.PAGO);
+		setDataVencimento(LocalDate.now().plusDays(30));
 	}
 
 	public void imprimir() {

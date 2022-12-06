@@ -21,11 +21,16 @@ public class AssinaturaController {
 	private List<Assinatura> assinaturas = new ArrayList<>();
 
 	public void cargaDados(Assinante assinante) {
-		assinaturas.add(new Assinatura(id, assinante, LocalDate.of(2022, 11, 01), new ArrayList<ServicoStreaming>(
-				Arrays.asList(servicoController.getServicos().get(0), servicoController.getServicos().get(1)))));
+		Assinatura assinatura = new Assinatura(id, assinante, LocalDate.of(2022, 11, 01), new ArrayList<ServicoStreaming>(
+				Arrays.asList(servicoController.getServicos().get(0), servicoController.getServicos().get(1))));
+		assinaturas.add(assinatura);
+		assinante.getAssinaturas().add(assinatura);
 		id += 1;
-		assinaturas.add(new Assinatura(id, assinante, LocalDate.now(), new ArrayList<ServicoStreaming>(
-				Arrays.asList(servicoController.getServicos().get(2), servicoController.getServicos().get(3)))));
+		
+		assinatura = new Assinatura(id, assinante, LocalDate.now(), new ArrayList<ServicoStreaming>(
+				Arrays.asList(servicoController.getServicos().get(2), servicoController.getServicos().get(3))));
+		assinaturas.add(assinatura);
+		assinante.getAssinaturas().add(assinatura);
 		id += 1;
 	}
 
@@ -39,6 +44,23 @@ public class AssinaturaController {
 			indice = lerInteiro("\nDigite o id da assinatura desejada: ");
 			try {
 				assinatura = assinaturas.get(indice - 1);
+			} catch (Exception e) {
+				System.out.println("Assinatura não cadastrada");
+			}
+		}
+		return assinatura;
+	}
+	
+	public Assinatura selecionarAssinatura(Assinante assinante) {
+		imprimir(assinante);
+		Assinatura assinatura = null;
+		int indice;
+		
+		while (assinatura == null) {
+
+			indice = lerInteiro("\nDigite o id da assinatura desejada: ");
+			try {
+				assinatura = assinante.getAssinaturas().get(indice - 1);
 			} catch (Exception e) {
 				System.out.println("Assinatura não cadastrada");
 			}
@@ -154,6 +176,20 @@ public class AssinaturaController {
 		return valor;
 	}
 
+	public void imprimir(Assinante assinante) {
+		assinante.getAssinaturas().forEach(assinatura -> assinatura.imprimir());
+	}
+
+	public void filtrarPorStatusPagamento(StatusPagamento statusPagamento, Assinante assinante) {
+		assinante.getAssinaturas().stream().filter(assinatura -> assinatura.getStatusPagamento().equals(statusPagamento))
+				.forEach(assinatura -> assinatura.imprimir());
+	}
+
+	public void ordenarPorDataVencimento(Assinante assinante) {
+		assinante.getAssinaturas().stream().sorted((assinatura1, assinatura2) -> assinatura1.getDataVencimento()
+				.compareTo(assinatura2.getDataVencimento())).forEach(assinatura -> assinatura.imprimir());
+	}
+	
 	public void imprimir() {
 		assinaturas.forEach(assinatura -> assinatura.imprimir());
 	}
@@ -166,7 +202,6 @@ public class AssinaturaController {
 	public void ordenarPorDataVencimento() {
 		assinaturas.stream().sorted((assinatura1, assinatura2) -> assinatura1.getDataVencimento()
 				.compareTo(assinatura2.getDataVencimento())).forEach(assinatura -> assinatura.imprimir());
-		;
 	}
 
 	public List<Assinatura> getAssinaturas() {

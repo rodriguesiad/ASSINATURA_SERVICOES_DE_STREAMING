@@ -3,6 +3,8 @@ package aplicacao;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import controller.AssinaturaController;
 import controller.ServicosStreamingController;
@@ -23,14 +25,27 @@ public class Principal {
 
 	public static void main(String[] args) {
 		Principal principal = new Principal();
-		
+
 		principal.cargaDadosUsuarios();
 		principal.cargaDados(Principal.assinantes.get(0));
-		
-		principal.menuAssinante(Principal.assinantes.get(0));
+
+		int option = 0;
+		do {
+			option = principal.lerInteiro(
+					"\nLogar como:\n1 - Assinante \n2 - Usuário Administrador\n(Para sair digite 0)\nDigite: ");
+
+			if (option == 1) {
+				principal.loginAssinante();
+			} else if (option == 2) {
+
+			} else if (option > 2 || option < 0) {
+				System.out.println("\n Escolha inválida! ");
+			}
+		} while (option != 0);
+
 		System.out.println("Finalizando...Fim");
 	}
-	
+
 	private void cargaDadosUsuarios() {
 		usuariosAdministrador.add(new UsuarioAdministrador("adm@email", "Adm123"));
 		assinantes.add(new Assinante("assinante@email", "Assinante123"));
@@ -39,29 +54,66 @@ public class Principal {
 	private void cargaDados(Assinante assinante) {
 		if (servicoStreamingController.getServicos().isEmpty())
 			servicoStreamingController.cargaDados();
-		if(assinaturaController.getAssinaturas().isEmpty())
+		if (assinaturaController.getAssinaturas().isEmpty())
 			assinaturaController.cargaDados(assinante);
+	}
+
+	public Assinante validarLoginAssinante(String email, String senha) {
+		for (Assinante assinante : assinantes) {
+			if (assinante.getEmail().equals(email) && assinante.getSenha().equals(senha))
+				return assinante;
+		}
+		return null;
+	}
+
+	public void loginAssinante() {
+		int option = 0;
+		Assinante assinante;
+
+		do {
+
+			System.out.println("-- LOGIN --");
+			System.out.print("\nEmail: ");
+			String email = scan.next();
+
+			System.out.print("\nSenha: ");
+			String senha = scan.next();
+
+			assinante = validarLoginAssinante(email, senha);
+
+			if (assinante != null) {
+				menuAssinante(assinante);
+
+			} else {
+				option = lerInteiro(
+						"Email ou senha incorretos, assinante não cadastrado.\n(Para sair digite 0 ou outro numero para fazer login novamente):");
+			}
+
+		} while (option != 0);
+	}
+
+	public void loginUsuario() {
 	}
 
 	public void menuAssinante(Assinante assinante) {
 		int option = 0;
 		do {
 			option = lerInteiro(
-					"\n1 - Cadastrar \n2 - Selecionar Assinatura \n3 - Imprimir\n(Para sair digite 0)\nDigite: ");
+					"\n1 - Cadastrar nova \n2 - Selecionar Assinatura \n3 - Imprimir minhas assinaturas\n(Para sair digite 0)\nDigite: ");
 
 			if (option == 1)
 				assinaturaController.cadastrar(assinante);
 			else if (option == 2)
-				menuSelecioarAssinatura();
+				menuSelecioarAssinatura(assinante);
 			else if (option == 3)
-				menuImprimirAssinaturas();
+				menuImprimirAssinaturas(assinante);
 			else if (option > 3 || option < 0)
 				System.out.println("\n Escolha inválida! ");
 		} while (option != 0);
 	}
 
-	public void menuSelecioarAssinatura() {
-		Assinatura assinatura = assinaturaController.selecionarAssinatura();
+	public void menuSelecioarAssinatura(Assinante assinante) {
+		Assinatura assinatura = assinaturaController.selecionarAssinatura(assinante);
 
 		int option = 0;
 		do {
@@ -74,7 +126,7 @@ public class Principal {
 				assinaturaController.editar(assinatura);
 			else if (option == 2)
 				assinaturaController.desativar(assinatura);
-			else if(option == 3)
+			else if (option == 3)
 				assinaturaController.ativar(assinatura);
 			else if (option == 4)
 				assinatura.realizarPagamento();
@@ -86,8 +138,8 @@ public class Principal {
 
 	}
 
-	public void menuImprimirAssinaturas() {
-		assinaturaController.imprimir();
+	public void menuImprimirAssinaturas(Assinante assinante) {
+		assinaturaController.imprimir(assinante);
 
 		int option = 0;
 		do {
@@ -95,10 +147,10 @@ public class Principal {
 					"\n1 - Listar por dada de validade \n2 - Filtrar por status de pagamento\n(Para sair digite 0)\nDigite: ");
 
 			if (option == 1) {
-				assinaturaController.ordenarPorDataVencimento();
+				assinaturaController.ordenarPorDataVencimento(assinante);
 			} else if (option == 2) {
 
-				assinaturaController.filtrarPorStatusPagamento(selecionarStatusPagamento());
+				assinaturaController.filtrarPorStatusPagamento(selecionarStatusPagamento(), assinante);
 
 			} else if (option > 2 || option < 0) {
 				System.out.println("\n Escolha inválida! ");
