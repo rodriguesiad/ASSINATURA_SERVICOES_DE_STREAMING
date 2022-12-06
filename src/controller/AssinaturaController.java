@@ -71,7 +71,6 @@ public class AssinaturaController {
 	public void cadastrar(Assinante assinante) {
 
 		System.out.println("\n - CADASTRAR ASSINATURA - ");
-
 		Assinatura assinatura = new Assinatura(id, assinante, adicionarServicos());
 		assinaturas.add(assinatura);
 		id += 1;

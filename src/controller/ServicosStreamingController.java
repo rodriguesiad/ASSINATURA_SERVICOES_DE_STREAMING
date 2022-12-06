@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import modelo.Assinatura;
 import modelo.ServicoStreaming;
 
 public class ServicosStreamingController {
@@ -11,6 +12,8 @@ public class ServicosStreamingController {
 	private static Scanner scanNextLine = new Scanner(System.in);
 	private static Integer id = 0;
 
+	private static AssinaturaController assinaturaController = new AssinaturaController();
+	
 	private static List<ServicoStreaming> servicos = new ArrayList<>();
 
 	public void menu() {
@@ -44,6 +47,54 @@ public class ServicosStreamingController {
 		id += 1;
 
 		System.out.println("\n Servico Cadastrado ");
+	}
+	
+	public ServicoStreaming selecionarServico() {
+		imprimir();
+		ServicoStreaming servico = null;
+		int indice;
+		
+		while (servico == null) {
+
+			indice = lerInteiro("\nDigite o id do serviço de streaming desejado: ");
+			try {
+				servico = servicos.get(indice - 1);
+			} catch (Exception e) {
+				System.out.println("Serviço de Streaming não cadastrado");
+			}
+		}
+		return servico;
+	}
+	
+	public void editar(ServicoStreaming servico) {
+		
+		System.out.println("Escreva apenas nos campos que deseja editar, caso contrário, apenas dê enter");
+		
+		System.out.print("Valor: ");
+		String valor = scanNextLine.nextLine();
+		
+		if(valor != "") {
+			try {
+				Double valorDouble = Double.valueOf(valor);
+				servico.setValor(valorDouble);
+			}catch (Exception e) {
+				System.out.println("O dado inserido não é numérico");
+			}
+			
+		}
+		
+		//ServicoStreaming servicoEditar
+	}
+	
+	public void excluir(ServicoStreaming servico) {
+		servicos.remove(servico);
+		
+		for (Assinatura assinatura : assinaturaController.getAssinaturas()) {
+			if(assinatura.getServicosStreaming().contains(servico))
+				assinatura.getServicosStreaming().remove(servico);
+				assinatura.setValor();
+		}
+		
 	}
 
 	private Integer lerInteiro(String mensagem) {
@@ -86,6 +137,5 @@ public class ServicosStreamingController {
 	public List<ServicoStreaming> getServicos() {
 		return servicos;
 	}
-
 
 }
