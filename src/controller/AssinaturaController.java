@@ -21,14 +21,15 @@ public class AssinaturaController {
 	private List<Assinatura> assinaturas = new ArrayList<>();
 
 	public void cargaDados(Assinante assinante) {
-		Assinatura assinatura = new Assinatura(id, assinante, LocalDate.of(2022, 11, 01), new ArrayList<ServicoStreaming>(
-				Arrays.asList(servicoController.getServicos().get(0), servicoController.getServicos().get(1))));
+		Assinatura assinatura = new Assinatura(id, assinante, LocalDate.of(2022, 11, 01),
+				new ArrayList<ServicoStreaming>(
+						Arrays.asList(servicoController.getServicos().get(0), servicoController.getServicos().get(1))));
 		assinaturas.add(assinatura);
 		assinante.getAssinaturas().add(assinatura);
 		id += 1;
-		
+
 		assinatura = new Assinatura(id, assinante, LocalDate.now(), new ArrayList<ServicoStreaming>(
-				Arrays.asList(servicoController.getServicos().get(2), servicoController.getServicos().get(3))));
+				Arrays.asList(servicoController.getServicos().get(2), servicoController.getServicos().get(1))));
 		assinaturas.add(assinatura);
 		assinante.getAssinaturas().add(assinatura);
 		id += 1;
@@ -38,7 +39,7 @@ public class AssinaturaController {
 		imprimir();
 		Assinatura assinatura = null;
 		int indice;
-		
+
 		while (assinatura == null) {
 
 			indice = lerInteiro("\nDigite o id da assinatura desejada: ");
@@ -50,12 +51,12 @@ public class AssinaturaController {
 		}
 		return assinatura;
 	}
-	
+
 	public Assinatura selecionarAssinatura(Assinante assinante) {
 		imprimir(assinante);
 		Assinatura assinatura = null;
 		int indice;
-		
+
 		while (assinatura == null) {
 
 			indice = lerInteiro("\nDigite o id da assinatura desejada: ");
@@ -149,7 +150,7 @@ public class AssinaturaController {
 	public void desativar(Assinatura assinatura) {
 		assinatura.cancelarAssinatura();
 	}
-	
+
 	public void ativar(Assinatura assinatura) {
 		assinatura.ativarAssinatura();
 	}
@@ -180,7 +181,8 @@ public class AssinaturaController {
 	}
 
 	public void filtrarPorStatusPagamento(StatusPagamento statusPagamento, Assinante assinante) {
-		assinante.getAssinaturas().stream().filter(assinatura -> assinatura.getStatusPagamento().equals(statusPagamento))
+		assinante.getAssinaturas().stream()
+				.filter(assinatura -> assinatura.getStatusPagamento().equals(statusPagamento))
 				.forEach(assinatura -> assinatura.imprimir());
 	}
 
@@ -188,7 +190,7 @@ public class AssinaturaController {
 		assinante.getAssinaturas().stream().sorted((assinatura1, assinatura2) -> assinatura1.getDataVencimento()
 				.compareTo(assinatura2.getDataVencimento())).forEach(assinatura -> assinatura.imprimir());
 	}
-	
+
 	public void imprimir() {
 		assinaturas.forEach(assinatura -> assinatura.imprimir());
 	}

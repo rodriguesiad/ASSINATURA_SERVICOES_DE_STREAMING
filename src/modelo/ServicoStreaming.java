@@ -6,17 +6,14 @@ public class ServicoStreaming implements Imprimir {
 
 	private Integer id;
 	private String nome;
-	private Double valor;
 	private Double precoUnitario;
 	private String descricao;
 	private Categoria categoria;
 
-	public ServicoStreaming(Integer id, String nome, Double valor, Double precoUnitario, String descricao,
-			Categoria categoria) {
+	public ServicoStreaming(Integer id, String nome, Double precoUnitario, String descricao, Categoria categoria) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.valor = valor;
 		this.precoUnitario = precoUnitario;
 		this.descricao = descricao;
 		this.categoria = categoria;
@@ -28,14 +25,6 @@ public class ServicoStreaming implements Imprimir {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Double getValor() {
-		return valor;
-	}
-
-	public void setValor(Double valor) {
-		this.valor = valor;
 	}
 
 	public Double getPrecoUnitario() {
@@ -78,13 +67,13 @@ public class ServicoStreaming implements Imprimir {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(categoria, descricao, id, precoUnitario, valor);
+		return Objects.hash(categoria, descricao, id, precoUnitario);
 	}
 
 	@Override
 	public String toString() {
-		return "\n" + nome + "\nId: " + id + "\nValor: " + valor + "\nPreço Unitário: " + precoUnitario
-				+ "\nDescrição: " + descricao + "\nCategoria: " + categoria.getLabel();
+		return "\n" + nome + "\nId: " + id + "\nPreço Unitário: " + precoUnitario + "\nDescrição: " + descricao
+				+ "\nCategoria: " + categoria.getLabel();
 	}
 
 }

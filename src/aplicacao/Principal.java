@@ -12,7 +12,6 @@ import modelo.StatusPagamento;
 import modelo.usuario.Assinante;
 import modelo.usuario.Funcionario;
 
-
 public class Principal {
 	private static Scanner scan = new Scanner(System.in);
 	private static Scanner scanNextLine = new Scanner(System.in);
@@ -31,8 +30,8 @@ public class Principal {
 
 		int option = 0;
 		do {
-			option = principal.lerInteiro(
-					"\nLogar como:\n1 - Assinante \n2 - Funcionario\n(Para sair digite 0)\nDigite: ");
+			option = principal
+					.lerInteiro("\nLogar como:\n1 - Assinante \n2 - Funcionario\n(Para sair digite 0)\nDigite: ");
 
 			if (option == 1) {
 				principal.loginAssinante();
@@ -65,7 +64,7 @@ public class Principal {
 		}
 		return null;
 	}
-	
+
 	public Funcionario validarLoginFuncionario(String email, String senha) {
 		for (Funcionario funcionario : funcionarios) {
 			if (funcionario.getEmail().equals(email) && funcionario.getSenha().equals(senha))
@@ -99,7 +98,7 @@ public class Principal {
 
 		} while (option != 0);
 	}
-	
+
 	public void loginFuncionario() {
 		int option = 0;
 		Funcionario funcionario;
@@ -142,12 +141,11 @@ public class Principal {
 				System.out.println("\n Escolha inválida! ");
 		} while (option != 0);
 	}
-	
+
 	public void menuFuncionario(Funcionario funcionario) {
 		int option = 0;
 		do {
-			option = lerInteiro(
-					"\n1 - Assinaturas \n2 - Serviços \n(Para sair digite 0)\nDigite: ");
+			option = lerInteiro("\n1 - Assinaturas \n2 - Serviços \n(Para sair digite 0)\nDigite: ");
 
 			if (option == 1)
 				menuAssinaturaFuncionario();
@@ -157,12 +155,11 @@ public class Principal {
 				System.out.println("\n Escolha inválida! ");
 		} while (option != 0);
 	}
-	
+
 	public void menuAssinaturaFuncionario() {
 		int option = 0;
 		do {
-			option = lerInteiro(
-					"\n1 - Imprimir assinaturas \n2 - Deletar assinatura \n(Para sair digite 0)\nDigite: ");
+			option = lerInteiro("\n1 - Imprimir assinaturas \n2 - Deletar assinatura \n(Para sair digite 0)\nDigite: ");
 			if (option == 1)
 				menuImprimirAssinaturas();
 			else if (option == 2)
@@ -171,21 +168,20 @@ public class Principal {
 				System.out.println("\n Escolha inválida! ");
 		} while (option != 0);
 	}
-	
+
 	public void menuDeletarAssinatura() {
 		Assinatura assinatura = assinaturaController.selecionarAssinatura();
-		
+
 		assinaturaController.excluir(assinatura);
-		
+
 		for (Assinante assinante : assinantes) {
-			if(assinante.getAssinaturas().contains(assinatura))
+			if (assinante.getAssinaturas().contains(assinatura))
 				assinante.getAssinaturas().remove(assinatura);
 		}
-		
-		System.out.println("Assinatura removida do sistema");
-		
-	}
 
+		System.out.println("Assinatura removida do sistema");
+
+	}
 
 	public void menuSelecioarAssinatura(Assinante assinante) {
 		Assinatura assinatura = assinaturaController.selecionarAssinatura(assinante);
@@ -232,7 +228,7 @@ public class Principal {
 			}
 		} while (option != 0);
 	}
-	
+
 	public void menuImprimirAssinaturas() {
 		assinaturaController.imprimir();
 
@@ -271,7 +267,7 @@ public class Principal {
 		return null;
 
 	}
-	
+
 	public void menuServicos() {
 		int option = 0;
 		do {
@@ -282,11 +278,33 @@ public class Principal {
 				servicoStreamingController.cadastrar();
 			else if (option == 2)
 				menuSelecionarServico();
-			else if (option > 2 || option < 0)
+			else if (option == 3)
+				menuImprimirServicos();
+			else if (option > 3 || option < 0)
 				System.out.println("\n Escolha inválida! ");
 		} while (option != 0);
 	}
-	
+
+	public void menuImprimirServicos() {
+		servicoStreamingController.imprimir();
+
+		int option = 0;
+		do {
+			option = lerInteiro(
+					"\n1 - Listar por preço unitário \n2 - Filtrar categoria\n(Para sair digite 0)\nDigite: ");
+
+			if (option == 1) {
+				servicoStreamingController.ordenarPorPreco();
+			} else if (option == 2) {
+				servicoStreamingController.filtrarPorCategoria(servicoStreamingController.selecionarCategoria());
+
+			} else if (option > 2 || option < 0) {
+				System.out.println("\n Escolha inválida! ");
+			}
+		} while (option != 0);
+
+	}
+
 	public void menuSelecionarServico() {
 		ServicoStreaming servico = servicoStreamingController.selecionarServico();
 
@@ -294,13 +312,14 @@ public class Principal {
 		do {
 			servico.imprimir();
 
-			option = lerInteiro(
-					"\n1 - Editar \n2 - Exlcuir\n(Para sair digite 0)\nDigite: ");
+			option = lerInteiro("\n1 - Editar \n2 - Exlcuir\n(Para sair digite 0)\nDigite: ");
 
 			if (option == 1)
 				servicoStreamingController.editar(servico);
-			else if (option == 2)
+			else if (option == 2) {
 				servicoStreamingController.excluir(servico);
+				option = 0;
+			}
 			else if (option > 2 || option < 0)
 				System.out.println("\n Escolha inválida! ");
 

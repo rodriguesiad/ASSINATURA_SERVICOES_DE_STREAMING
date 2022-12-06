@@ -75,7 +75,7 @@ public class Assinatura implements Imprimir {
 	public void cancelarAssinatura() {
 		this.setAtivo(false);
 	}
-	
+
 	public void ativarAssinatura() {
 		this.setAtivo(true);
 	}
@@ -160,7 +160,7 @@ public class Assinatura implements Imprimir {
 	public void setValor() {
 		if (!this.servicosStreaming.isEmpty()) {
 			this.servicosStreaming.forEach((servico) -> {
-				this.valor += servico.getValor();
+				this.valor += servico.getPrecoUnitario();
 			});
 		}
 	}
