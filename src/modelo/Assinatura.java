@@ -1,7 +1,7 @@
 package modelo;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -85,9 +85,11 @@ public class Assinatura implements Imprimir {
 		setDataVencimento(LocalDate.now().plusDays(30));
 	}
 
+	@Override
 	public void imprimir() {
 		System.out.println(this);
 		imprimirServicos();
+		System.out.println("--------------------");
 	}
 
 	public void imprimirServicos() {
@@ -158,6 +160,7 @@ public class Assinatura implements Imprimir {
 	}
 
 	public void setValor() {
+		this.valor = 0.00;
 		if (!this.servicosStreaming.isEmpty()) {
 			this.servicosStreaming.forEach((servico) -> {
 				this.valor += servico.getPrecoUnitario();

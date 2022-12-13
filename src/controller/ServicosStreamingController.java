@@ -17,21 +17,6 @@ public class ServicosStreamingController {
 
 	private static List<ServicoStreaming> servicos = new ArrayList<>();
 
-	public void menu() {
-		int option;
-		System.out.println("\n MENU SERVICOS");
-		do {
-
-			option = lerInteiro("\n 1 - Cadastrar(Para sair digite 0):");
-
-			if (option == 1) {
-				cadastrar();
-			} else if (option > 2 || option < 0) {
-				System.out.println("\n Escolha inválida. Digite novamente");
-			}
-		} while (option != 0);
-	}
-
 	public void cargaDados() {
 		getServicos().add(new ServicoStreaming(id, "Netfliz", 12.50, "Servico Streaming", Categoria.FILME_SERIE));
 		id += 1;

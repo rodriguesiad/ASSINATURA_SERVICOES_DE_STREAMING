@@ -62,7 +62,6 @@ public class ServicoStreaming implements Imprimir {
 	@Override
 	public void imprimir() {
 		System.out.println(this);
-
 	}
 
 	@Override
