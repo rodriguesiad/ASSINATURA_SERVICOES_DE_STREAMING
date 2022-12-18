@@ -14,7 +14,6 @@ import modelo.usuario.Funcionario;
 
 public class Principal {
 	private static Scanner scan = new Scanner(System.in);
-	private static Scanner scanNextLine = new Scanner(System.in);
 
 	private static AssinaturaController assinaturaController = new AssinaturaController();
 	private static ServicosStreamingController servicoStreamingController = new ServicosStreamingController();
@@ -336,7 +335,7 @@ public class Principal {
 
 			} catch (Exception e) {
 				System.out.println("O valor deve ser do tipo inteiro. Tente novamente");
-				scanNextLine.nextLine();
+				scan.nextLine();
 			}
 		}
 

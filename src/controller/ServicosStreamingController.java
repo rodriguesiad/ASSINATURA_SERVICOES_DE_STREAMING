@@ -138,7 +138,7 @@ public class ServicosStreamingController {
 
 			} catch (Exception e) {
 				System.out.println("O valor deve ser do tipo inteiro. Tente novamente");
-				scanNextLine.nextLine();
+				scan.nextLine();
 			}
 		}
 
@@ -155,7 +155,7 @@ public class ServicosStreamingController {
 
 			} catch (Exception e) {
 				System.out.println("O valor deve ser do tipo double. Tente novamente");
-				scanNextLine.nextLine();
+				scan.nextLine();
 			}
 		}
 		return valor;

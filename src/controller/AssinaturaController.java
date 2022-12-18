@@ -13,7 +13,6 @@ import modelo.usuario.Assinante;
 
 public class AssinaturaController {
 	private static Scanner scan = new Scanner(System.in);
-	private static Scanner scanNextLine = new Scanner(System.in);
 	private static Integer id = 1;
 
 	private static ServicosStreamingController servicoController = new ServicosStreamingController();
@@ -169,7 +168,7 @@ public class AssinaturaController {
 
 			} catch (Exception e) {
 				System.out.println("O valor deve ser do tipo inteiro. Tente novamente");
-				scanNextLine.nextLine();
+				scan.nextLine();
 			}
 		}
 
